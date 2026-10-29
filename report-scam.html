@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Report a Scam | ScamSafe</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .report-page {
+      max-width: 850px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .report-header {
+      padding: 30px;
+      border-radius: 20px;
+      color: white;
+      background: linear-gradient(120deg, #7048c6, #27b8a5);
+      margin-bottom: 24px;
+    }
+
+    .report-header h1 {
+      color: white;
+      margin-top: 0;
+    }
+
+    .report-header p {
+      line-height: 1.7;
+    }
+
+    .report-card {
+      padding: 28px;
+      background: white;
+      border: 1px solid #eee8fb;
+      border-radius: 18px;
+      box-shadow: 0 5px 20px #33206012;
+    }
+
+    .report-card label {
+      display: block;
+      margin: 18px 0 8px;
+      font-weight: 600;
+      color: #30254a;
+    }
+
+    .report-card input,
+    .report-card select,
+    .report-card textarea {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      border: 1px solid #d9d2e8;
+      border-radius: 9px;
+      font: inherit;
+      background: white;
+    }
+
+    .report-card textarea {
+      min-height: 130px;
+      resize: vertical;
+    }
+
+    .report-card input:focus,
+    .report-card select:focus,
+    .report-card textarea:focus {
+      outline: 2px solid #7048c6;
+    }
+
+    .safety-notice {
+      margin: 22px 0;
+      padding: 16px;
+      border-radius: 12px;
+      background: #e8faf5;
+      color: #245f53;
+      line-height: 1.7;
+    }
+
+    .report-submit {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      background: linear-gradient(120deg, #7048c6, #27b8a5);
+      font: inherit;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .report-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #reportMessage {
+      line-height: 1.6;
+      margin-top: 15px;
+    }
+
+    .report-navigation {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .report-navigation a {
+      color: #7048c6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
+      .report-page {
+        padding: 12px;
+      }
+
+      .report-card,
+      .report-header {
+        padding: 20px;
+      }
+    }
+  </style>
+
+  <!-- Redirect guests to registration -->
+  <script type="module">
+    import { auth } from "./firebase-config.js";
+
+    import {
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
+
+    document.documentElement.style.visibility = "hidden";
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.replace("register.html");
+        return;
+      }
+
+      document.documentElement.style.visibility = "visible";
+    });
+  </script>
+</head>
+
+<body>
+  <main class="report-page">
+
+    <section class="report-header">
+      <h1>🚨 Report a Suspected Scam</h1>
+      <p>
+        Share details about a suspected digital scam to document
+        what happened and track your report through ScamSafe.
+      </p>
+    </section>
+
+    <section class="report-card">
+      <h2>Report Details</h2>
+      <p>Fields marked with * are required.</p>
+
+      <form id="reportForm">
+
+        <label for="scamType">Type of Scam *</label>
+        <select id="scamType" name="scamType" required>
+          <option value="">Select scam type</option>
+          <option value="Phishing">Phishing</option>
+          <option value="Fake Job Offer">Fake Job Offer</option>
+          <option value="Online Shopping Scam">Online Shopping Scam</option>
+          <option value="Investment Scam">Investment Scam</option>
+          <option value="Impersonation Scam">Impersonation Scam</option>
+          <option value="Account Takeover">Account Takeover</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label for="platform">Platform or Website *</label>
+        <input
+          type="text"
+          id="platform"
+          name="platform"
+          placeholder="e.g. WhatsApp, Facebook, website or SMS"
+          maxlength="200"
+          required
+        >
+
+        <label for="incidentDate">Date of Incident</label>
+        <input
+          type="date"
+          id="incidentDate"
+          name="incidentDate"
+        >
+
+        <label for="amount">Estimated Money Lost (KES)</label>
+        <input
+          type="number"
+          id="amount"
+          name="amount"
+          min="0"
+          step="0.01"
+          placeholder="Enter amount, or leave blank"
+        >
+
+        <label for="description">Describe What Happened *</label>
+        <textarea
+          id="description"
+          name="description"
+          placeholder="Explain what happened and why you suspect a scam."
+          minlength="10"
+          maxlength="3000"
+          required
+        ></textarea>
+
+        <div class="safety-notice">
+          <strong>🔒 Protect Your Information</strong>
+          <p>
+            Do not include passwords, PINs, full bank or card details,
+            or other sensitive personal information in your report.
+          </p>
+        </div>
+
+        <button
+          type="submit"
+          id="submitReport"
+          class="report-submit"
+        >
+          Submit Scam Report
+        </button>
+
+        <p id="reportMessage" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="report-navigation">
+        <a href="registered-user.html">← My Dashboard</a>
+        <a href="how-to-report.html">How to Report</a>
+        <a href="index.html">Homepage</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Connect to the existing report submission logic -->
+  <script type="module" src="report-scam.js"></script>
+</body>
+</html>

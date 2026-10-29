@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Reports | ScamSafe</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .reports-page {
+      max-width: 1000px;
+      margin: auto;
+      padding: 25px;
+    }
+
+    .reports-hero {
+      padding: 30px;
+      border-radius: 22px;
+      color: white;
+      background: linear-gradient(120deg, #7048c6, #27b8a5);
+    }
+
+    .reports-hero h1 {
+      color: white;
+      margin-top: 0;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 15px;
+      margin: 25px 0;
+    }
+
+    .summary-card {
+      background: white;
+      border: 1px solid #eee8fb;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 5px 18px #33206010;
+    }
+
+    .summary-card p {
+      color: #596579;
+      margin-bottom: 8px;
+    }
+
+    .summary-card h2 {
+      color: #7048c6;
+      margin: 0;
+      font-size: 30px;
+    }
+
+    .report-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .report-card {
+      background: white;
+      border: 1px solid #eee8fb;
+      border-radius: 17px;
+      padding: 22px;
+      box-shadow: 0 5px 18px #33206010;
+      overflow-wrap: anywhere;
+    }
+
+    .report-card h2 {
+      color: #7048c6;
+      margin-top: 0;
+    }
+
+    .report-card p {
+      color: #596579;
+      line-height: 1.7;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: #fff0cf;
+      color: #80551a;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .status.reviewed {
+      background: #e5f2ff;
+      color: #245a91;
+    }
+
+    .status.resolved {
+      background: #e1f8ed;
+      color: #18794e;
+    }
+
+    .empty-state {
+      background: white;
+      border: 1px dashed #cfc2eb;
+      border-radius: 18px;
+      padding: 30px;
+      text-align: center;
+      color: #596579;
+    }
+
+    .primary-link {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 12px 18px;
+      background: linear-gradient(120deg, #7048c6, #27b8a5);
+      color: white;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin: 18px 0;
+      color: #7048c6;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    #reportsMessage {
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="reports-page">
+
+    <a class="back-link" href="registered-user.html">
+      ← My Dashboard
+    </a>
+
+    <section class="reports-hero">
+      <h1>📋 My Scam Reports</h1>
+      <p>
+        Keep track of the suspected scams you have submitted
+        and check their current status.
+      </p>
+    </section>
+
+    <section class="summary-grid">
+      <article class="summary-card">
+        <p>Total Reports</p>
+        <h2 id="totalReports">—</h2>
+      </article>
+
+      <article class="summary-card">
+        <p>Pending</p>
+        <h2 id="pendingReports">—</h2>
+      </article>
+
+      <article class="summary-card">
+        <p>Reviewed</p>
+        <h2 id="reviewedReports">—</h2>
+      </article>
+
+      <article class="summary-card">
+        <p>Resolved</p>
+        <h2 id="resolvedReports">—</h2>
+      </article>
+    </section>
+
+    <h2>My Submitted Reports</h2>
+    <p id="reportsMessage" role="status" aria-live="polite">
+      Loading your reports...
+    </p>
+
+    <section id="reportsList" class="report-list"></section>
+
+    <a class="primary-link" href="report-scam.html">
+      + Submit a New Report
+    </a>
+
+    <p>
+      <a class="back-link" href="index.html">← Back to Homepage</a>
+    </p>
+
+  </main>
+
+  <script type="module" src="my-reports.js"></script>
+</body>
+</html>

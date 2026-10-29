@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | ScamSafe</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .login-box {
+      max-width: 420px;
+      margin: 55px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px #33206020;
+    }
+
+    .login-box h1 {
+      text-align: center;
+      color: #7048c6;
+    }
+
+    .login-box p {
+      text-align: center;
+      color: #667085;
+    }
+
+    .login-box label {
+      display: block;
+      margin-top: 17px;
+      font-weight: bold;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 7px;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      box-sizing: border-box;
+    }
+
+    .login-box button {
+      width: 100%;
+      margin-top: 22px;
+      padding: 13px;
+      border: none;
+      border-radius: 9px;
+      background: #7048c6;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .login-box button:hover {
+      background: #5633a3;
+    }
+
+    .login-box button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    #message {
+      overflow-wrap: anywhere;
+    }
+
+    .login-box a {
+      color: #7048c6;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-box">
+    <h1>🛡️ Welcome Back!</h1>
+    <p>Log in to continue your ScamSafe journey.</p>
+
+    <form id="loginForm">
+      <label for="email">Email Address</label>
+      <input
+        type="email"
+        id="email"
+        required
+        placeholder="Enter your email"
+      >
+
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        required
+        placeholder="Enter your password"
+      >
+
+      <button type="submit" id="loginButton">
+        Login ✨
+      </button>
+
+      <p id="message" role="status" aria-live="polite"></p>
+    </form>
+
+    <p>Don't have an account?
+      <a href="register.html">Register here</a>
+    </p>
+
+    <p><a href="index.html">← Back to Home</a></p>
+  </div>
+
+  <script type="module" src="login.js"></script>
+</body>
+</html>
