@@ -5,43 +5,124 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Safety Tips | ScamSafe</title>
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="style.css">
 
   <style>
-    .page-wrap { max-width: 950px; margin: auto; padding: 25px; }
+    .page-wrap {
+      max-width: 950px;
+      margin: auto;
+      padding: 25px;
+    }
+
     .hero {
-      padding: 35px; border-radius: 22px; color: white;
+      padding: 35px;
+      border-radius: 22px;
+      color: white;
       background: linear-gradient(120deg, #7048c6, #27b8a5);
     }
-    .hero h1 { color: white; }
-    .tip-list { display: grid; gap: 15px; margin-top: 25px; }
+
+    .hero h1 {
+      color: white;
+    }
+
+    .tip-list {
+      display: grid;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
     .tip {
-      display: flex; align-items: flex-start; gap: 15px;
-      background: white; padding: 20px; border-radius: 15px;
-      border: 1px solid #eee8fb; box-shadow: 0 4px 15px #33206010;
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      border: 1px solid #eee8fb;
+      box-shadow: 0 4px 15px #33206010;
     }
-    .tip-icon { font-size: 28px; }
-    .tip h2 { margin: 0 0 7px; color: #7048c6; font-size: 19px; }
-    .tip p { margin: 0; color: #596579; line-height: 1.6; }
+
+    .tip-icon {
+      font-size: 28px;
+    }
+
+    .tip h2 {
+      margin: 0 0 7px;
+      color: #7048c6;
+      font-size: 19px;
+    }
+
+    .tip p {
+      margin: 0;
+      color: #596579;
+      line-height: 1.6;
+    }
+
     .slogan {
-      text-align: center; padding: 25px; margin-top: 25px;
-      border-radius: 18px; background: #f0eaff;
+      text-align: center;
+      padding: 25px;
+      margin-top: 25px;
+      border-radius: 18px;
+      background: #f0eaff;
     }
-    .slogan h2 { color: #7048c6; }
-    .back-link { display: inline-block; margin: 20px 0; color: #7048c6; }
+
+    .slogan h2 {
+      color: #7048c6;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin: 20px 0;
+      color: #7048c6;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .additional-heading {
+      color: #7048c6;
+      margin-top: 40px;
+    }
+
+    .tip-message {
+      color: #596579;
+      padding: 15px;
+      background: #f8f5ff;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+
+    @media (max-width: 600px) {
+      .page-wrap {
+        padding: 15px;
+      }
+
+      .tip {
+        padding: 15px;
+      }
+    }
   </style>
 </head>
 
 <body>
+
   <main class="page-wrap">
-    <a class="back-link" href="../registered-user.html">← My Dashboard</a>
+
+    <a class="back-link" href="registered-user.html">
+      ← My Dashboard
+    </a>
 
     <section class="hero">
       <h1>💡 Your Daily Safety Tips</h1>
-      <p>Stay alert, protect your information and make safer choices online. Start with these simple habits.</p>
+      <p>
+        Stay alert, protect your information and make safer choices online.
+        Start with these simple habits.
+      </p>
     </section>
 
+    <!-- EIGHT PERMANENT SAFETY TIPS -->
+
     <section class="tip-list">
+
       <article class="tip">
         <span class="tip-icon">🔍</span>
         <div>
@@ -105,6 +186,23 @@
           <p>Contact your bank or payment provider immediately if money or financial details may be at risk. Preserve evidence and report the incident through appropriate official channels.</p>
         </div>
       </article>
+
+    </section>
+
+    <!-- ADDITIONAL TIPS FROM FIREBASE -->
+
+    <section>
+      <h2 class="additional-heading">
+        🌟 More Safety Tips
+      </h2>
+
+      <p>
+        Explore additional safety advice published by ScamSafe administrators.
+      </p>
+
+      <div id="firebase-tips" class="tip-list">
+        <p class="tip-message">Loading additional safety tips...</p>
+      </div>
     </section>
 
     <section class="slogan">
@@ -113,7 +211,80 @@
       <a href="how-to-report.html">Learn How to Report a Scam →</a>
     </section>
 
-    <p><a class="back-link" href="../index.html">← Back to Homepage</a></p>
+    <p>
+      <a class="back-link" href="index.html">
+        ← Back to Homepage
+      </a>
+    </p>
+
   </main>
+
+  <!-- FIREBASE SAFETY TIPS DISPLAY -->
+
+  <script type="module">
+
+    import { db } from "./firebase-config.js";
+
+    import {
+      ref,
+      onValue
+    } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+
+    const tipsContainer = document.getElementById("firebase-tips");
+
+    const tipsRef = ref(db, "safetyTips");
+
+    onValue(tipsRef, (snapshot) => {
+
+      tipsContainer.innerHTML = "";
+
+      if (!snapshot.exists()) {
+
+        tipsContainer.innerHTML =
+          '<p class="tip-message">No additional safety tips have been published yet.</p>';
+
+        return;
+      }
+
+      snapshot.forEach((childSnapshot) => {
+
+        const tip = childSnapshot.val();
+
+        const card = document.createElement("article");
+        card.className = "tip";
+
+        const icon = document.createElement("span");
+        icon.className = "tip-icon";
+        icon.textContent = tip.emoji || "💡";
+
+        const content = document.createElement("div");
+
+        const heading = document.createElement("h2");
+        heading.textContent = tip.title || "Safety Tip";
+
+        const description = document.createElement("p");
+        description.textContent = tip.description || "";
+
+        content.appendChild(heading);
+        content.appendChild(description);
+
+        card.appendChild(icon);
+        card.appendChild(content);
+
+        tipsContainer.appendChild(card);
+
+      });
+
+    }, (error) => {
+
+      console.error("Error loading safety tips:", error);
+
+      tipsContainer.innerHTML =
+        '<p class="tip-message">Unable to load additional safety tips. Please try again later.</p>';
+
+    });
+
+  </script>
+
 </body>
 </html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Reports | ScamSafe</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .reports-page {
+      max-width: 1150px;
+      margin: auto;
+      padding: 25px;
+    }
+
+    .reports-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .reports-header h1 {
+      color: #7048c6;
+      margin: 0;
+    }
+
+    .back-button {
+      display: inline-block;
+      padding: 10px 16px;
+      border-radius: 9px;
+      background: #7048c6;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .reports-intro {
+      background: linear-gradient(120deg, #7048c6, #27b8a5);
+      color: white;
+      padding: 25px;
+      border-radius: 18px;
+      margin-bottom: 25px;
+    }
+
+    .reports-intro h2 {
+      color: white;
+      margin-top: 0;
+    }
+
+    .report-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .summary-card {
+      background: white;
+      border: 1px solid #eee8fb;
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 4px 15px #33206010;
+    }
+
+    .summary-card p {
+      margin: 0 0 8px;
+      color: #667085;
+    }
+
+    .summary-card strong {
+      font-size: 25px;
+      color: #7048c6;
+    }
+
+    .reports-toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .reports-toolbar input,
+    .reports-toolbar select {
+      padding: 11px;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      font-size: 14px;
+      background: white;
+    }
+
+    .reports-toolbar input {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .report-card {
+      background: white;
+      border: 1px solid #eee8fb;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 15px #33206010;
+    }
+
+    .report-card h3 {
+      color: #7048c6;
+      margin-top: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .report-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .detail-item {
+      background: #faf8ff;
+      padding: 12px;
+      border-radius: 9px;
+      overflow-wrap: anywhere;
+    }
+
+    .detail-item strong {
+      display: block;
+      color: #596579;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .report-description {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      line-height: 1.6;
+      color: #30384b;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 6px 11px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      background: #fff1d6;
+      color: #8a5700;
+    }
+
+    .status-reviewed {
+      background: #e5efff;
+      color: #2457a7;
+    }
+
+    .status-resolved {
+      background: #dff7e9;
+      color: #187344;
+    }
+
+    .report-management {
+      border-top: 1px solid #eee8fb;
+      padding-top: 18px;
+      margin-top: 18px;
+    }
+
+    .report-management label {
+      display: block;
+      font-weight: bold;
+      margin: 14px 0 7px;
+      color: #30384b;
+    }
+
+    .report-management select,
+    .report-management textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 9px;
+      font: inherit;
+    }
+
+    .report-management textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .save-button {
+      margin-top: 14px;
+      padding: 12px 18px;
+      border: none;
+      border-radius: 9px;
+      background: #7048c6;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .save-button:hover {
+      background: #5633a3;
+    }
+
+    .save-button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .page-message {
+      padding: 12px;
+      border-radius: 9px;
+      overflow-wrap: anywhere;
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 35px 15px;
+      color: #667085;
+      background: white;
+      border-radius: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .reports-page {
+        padding: 15px;
+      }
+
+      .report-card {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="reports-page">
+
+    <header class="reports-header">
+      <h1>🚨 Manage Scam Reports</h1>
+      <a href="admin-dashboard.html" class="back-button">
+        ← Admin Dashboard
+      </a>
+    </header>
+
+    <section class="reports-intro">
+      <h2>Report Management</h2>
+      <p>
+        Review reports submitted by registered users, update their status,
+        and provide responses where necessary.
+      </p>
+    </section>
+
+    <section class="report-summary">
+      <div class="summary-card">
+        <p>Total Reports</p>
+        <strong id="totalCount">0</strong>
+      </div>
+
+      <div class="summary-card">
+        <p>Pending</p>
+        <strong id="pendingCount">0</strong>
+      </div>
+
+      <div class="summary-card">
+        <p>Reviewed</p>
+        <strong id="reviewedCount">0</strong>
+      </div>
+
+      <div class="summary-card">
+        <p>Resolved</p>
+        <strong id="resolvedCount">0</strong>
+      </div>
+    </section>
+
+    <p id="pageMessage" class="page-message" role="status"
+       aria-live="polite">
+      Checking administrator access...
+    </p>
+
+    <section id="reportSection" hidden>
+      <div class="reports-toolbar">
+        <input
+          type="search"
+          id="searchReports"
+          placeholder="Search scam type, platform or description..."
+          aria-label="Search reports"
+        >
+
+        <select id="filterStatus" aria-label="Filter reports by status">
+          <option value="All">All statuses</option>
+          <option value="Pending">Pending</option>
+          <option value="Reviewed">Reviewed</option>
+          <option value="Resolved">Resolved</option>
+        </select>
+      </div>
+
+      <div id="reportsList"></div>
+    </section>
+
+    <p>
+      <a href="index.html">← Back to Homepage</a>
+    </p>
+
+  </main>
+<script type="module" src="admin-report.js"></script>
+</body>
+</html>

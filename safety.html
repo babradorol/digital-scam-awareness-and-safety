@@ -5,44 +5,152 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Online Safety Guide | ScamSafe</title>
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="style.css">
 
   <style>
-    .page-wrap { max-width: 1000px; margin: auto; padding: 25px; }
+    .page-wrap {
+      max-width: 1000px;
+      margin: auto;
+      padding: 25px;
+    }
+
     .hero {
-      padding: 35px; border-radius: 22px; color: white;
+      padding: 35px;
+      border-radius: 22px;
+      color: white;
       background: linear-gradient(120deg, #7048c6, #27b8a5);
     }
+
     .hero h1 { color: white; }
+
     .safety-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px; margin-top: 25px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 25px;
     }
+
     .safety-card {
-      background: white; padding: 23px; border-radius: 17px;
-      border: 1px solid #eee8fb; box-shadow: 0 5px 18px #33206012;
+      background: white;
+      padding: 23px;
+      border-radius: 17px;
+      border: 1px solid #eee8fb;
+      box-shadow: 0 5px 18px #33206012;
     }
-    .safety-card h2 { color: #7048c6; font-size: 20px; }
-    .safety-card p, .safety-card li { color: #596579; line-height: 1.7; }
+
+    .safety-card h2 {
+      color: #7048c6;
+      font-size: 20px;
+    }
+
+    .safety-card p, .safety-card li {
+      color: #596579;
+      line-height: 1.7;
+    }
+
     .safety-card .emoji { font-size: 32px; }
+
     .reminder {
-      margin-top: 25px; padding: 22px; border-radius: 16px;
+      margin-top: 25px;
+      padding: 22px;
+      border-radius: 16px;
       background: #e5faf5;
     }
-    .back-link { display: inline-block; margin: 20px 0; color: #7048c6; }
+
+    .resources-section {
+      margin-top: 30px;
+    }
+
+    .resources-section > h2 {
+      color: #7048c6;
+      margin-bottom: 8px;
+    }
+
+    .resources-intro {
+      color: #596579;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+
+    .resource-card {
+      background: white;
+      padding: 22px;
+      border-radius: 16px;
+      border: 1px solid #eee8fb;
+      box-shadow: 0 5px 18px #33206012;
+    }
+
+    .resource-card h3 {
+      color: #7048c6;
+      margin-bottom: 10px;
+    }
+
+    .resource-card p {
+      color: #596579;
+      line-height: 1.7;
+    }
+
+    .resource-category {
+      display: inline-block;
+      background: #e5faf5;
+      color: #168b75;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
+    .resource-link {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      background: #7048c6;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .resource-link:hover {
+      background: #27b8a5;
+    }
+
+    .resource-message {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      color: #596579;
+      text-align: center;
+      grid-column: 1 / -1;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin: 20px 0;
+      color: #7048c6;
+    }
   </style>
 </head>
 
 <body>
   <main class="page-wrap">
-    <a class="back-link" href="../registered-user.html">← My Dashboard</a>
+
+    <a class="back-link" href="registered-user.html">← My Dashboard</a>
 
     <section class="hero">
       <h1>🛡️ Your Online Safety Guide</h1>
       <p>Small security habits can make a big difference. Learn how to protect yourself whenever you use the internet.</p>
     </section>
 
+    <!-- Permanent safety guide cards -->
     <section class="safety-grid">
+
       <article class="safety-card">
         <div class="emoji">🔑</div>
         <h2>Protect Your Passwords</h2>
@@ -78,8 +186,10 @@
         <h2>Browse Carefully</h2>
         <p>Be careful when using public Wi-Fi. Avoid accessing sensitive accounts on untrusted networks, and never ignore browser security warnings.</p>
       </article>
+
     </section>
 
+    <!-- Reminder checklist -->
     <section class="reminder">
       <h2>💜 Before You Trust a Message</h2>
       <ul>
@@ -91,8 +201,100 @@
       <p><strong>If you're unsure, pause and verify first.</strong></p>
     </section>
 
+    <!-- Dynamic safety resources from Firebase -->
+    <section class="resources-section">
+      <h2>📁 Safety Resources</h2>
+      <p class="resources-intro">
+        Explore additional educational materials and guides to improve
+        your online safety knowledge.
+      </p>
+
+      <div class="resource-grid" id="safety-resources">
+        <p class="resource-message">Loading safety resources...</p>
+      </div>
+    </section>
+
     <p><a class="back-link" href="safety-tips.html">Explore Safety Tips →</a></p>
-    <p><a class="back-link" href="../index.html">← Back to Homepage</a></p>
+    <p><a class="back-link" href="index.html">← Back to Homepage</a></p>
+
   </main>
+
+  <script type="module">
+    import { db } from "./firebase-config.js";
+
+    import {
+      ref,
+      onValue
+    } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+
+    const resourcesContainer =
+      document.getElementById("safety-resources");
+
+    const filesRef = ref(db, "safetyFiles");
+
+    onValue(filesRef, (snapshot) => {
+
+      resourcesContainer.innerHTML = "";
+
+      if (!snapshot.exists()) {
+        resourcesContainer.innerHTML =
+          '<p class="resource-message">No safety resources are currently available. Please check again later.</p>';
+        return;
+      }
+
+      snapshot.forEach((childSnapshot) => {
+
+        const file = childSnapshot.val();
+
+        const card = document.createElement("article");
+        card.className = "resource-card";
+
+        const heading = document.createElement("h3");
+        heading.textContent = "📄 " + (file.title || "Safety Resource");
+
+        const category = document.createElement("span");
+        category.className = "resource-category";
+        category.textContent = file.category || "General Awareness";
+
+        const description = document.createElement("p");
+        description.textContent = file.description || "";
+
+        card.appendChild(heading);
+        card.appendChild(category);
+        card.appendChild(description);
+
+        if (file.link) {
+          try {
+            const url = new URL(file.link);
+
+            if (url.protocol === "https:" || url.protocol === "http:") {
+              const link = document.createElement("a");
+              link.href = url.href;
+              link.textContent = "Open Resource ↗";
+              link.className = "resource-link";
+              link.target = "_blank";
+              link.rel = "noopener noreferrer";
+
+              card.appendChild(link);
+            }
+          } catch (error) {
+            console.error("Invalid safety resource link:", error);
+          }
+        }
+
+        resourcesContainer.appendChild(card);
+
+      });
+
+    }, (error) => {
+
+      console.error("Error loading safety resources:", error);
+
+      resourcesContainer.innerHTML =
+        '<p class="resource-message">Unable to load safety resources. Please try again later.</p>';
+
+    });
+  </script>
+
 </body>
 </html>

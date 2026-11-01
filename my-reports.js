@@ -8,8 +8,7 @@ import {
 import {
   ref,
   onValue
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
-
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js"
 const reportsList = document.getElementById("reportsList");
 const reportsMessage = document.getElementById("reportsMessage");
 
@@ -62,6 +61,7 @@ function createReportCard(report) {
   heading.textContent = `🚨 ${report.scamType || "Suspected Scam"}`;
 
   const statusText = String(report.status || "Pending");
+
   const status = document.createElement("span");
   status.className = "status";
 
@@ -74,7 +74,8 @@ function createReportCard(report) {
   status.textContent = statusText;
 
   const platform = document.createElement("p");
-  platform.textContent = `Platform: ${report.platform || "Not provided"}`;
+  platform.textContent =
+    `Platform: ${report.platform || "Not provided"}`;
 
   const incidentDate = document.createElement("p");
   incidentDate.textContent =
@@ -96,6 +97,27 @@ function createReportCard(report) {
   submitted.textContent =
     `Submitted: ${formatDate(report.createdAt)}`;
 
+  // Admin response section
+  const responseSection = document.createElement("div");
+  responseSection.className = "admin-response";
+
+  const responseHeading = document.createElement("h3");
+  responseHeading.textContent = "💬 Admin Response";
+
+  const responseText = document.createElement("p");
+  responseText.textContent =
+    report.adminResponse && report.adminResponse.trim()
+      ? report.adminResponse
+      : "No response from the administrator yet.";
+
+  responseSection.append(responseHeading, responseText);
+
+  // Last updated date
+  const updated = document.createElement("p");
+  updated.textContent = report.updatedAt
+    ? `Last updated: ${formatDate(report.updatedAt)}`
+    : "Last updated: Not yet updated";
+
   card.append(
     heading,
     status,
@@ -103,7 +125,9 @@ function createReportCard(report) {
     incidentDate,
     amount,
     description,
-    submitted
+    submitted,
+    responseSection,
+    updated
   );
 
   return card;

@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Safety Tips | ScamSafe</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .manage-tips {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 20px;
+        }
+
+        .tips-heading {
+            background: linear-gradient(135deg, #7048c6, #27b8a5);
+            color: white;
+            padding: 28px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+
+        .tip-form, .tip-list {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .tip-form h2, .tip-list h2 {
+            color: #7048c6;
+            margin-bottom: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font: inherit;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .tip-btn {
+            background: #7048c6;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .tip-btn:hover {
+            background: #5936a5;
+        }
+
+        .tip-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .cancel-btn {
+            background: #777;
+            margin-left: 8px;
+        }
+
+        .managed-tip {
+            border: 1px solid #eee;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .managed-tip h3 {
+            color: #7048c6;
+            margin-bottom: 8px;
+        }
+
+        .tip-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .edit-btn {
+            background: #27a879;
+        }
+
+        .delete-btn {
+            background: #d9534f;
+        }
+
+        .message {
+            margin: 12px 0;
+            font-weight: 600;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 0;
+            color: #7048c6;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .manage-tips {
+                padding: 12px;
+            }
+
+            .tip-actions {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="manage-tips">
+
+    <a href="admin-dashboard.html" class="back-link">
+        ← Back to Admin Dashboard
+    </a>
+
+    <section class="tips-heading">
+        <h1>💡 Manage Safety Tips</h1>
+        <p>
+            Add, update and manage helpful safety advice
+            to educate users on protecting themselves online.
+        </p>
+    </section>
+
+    <section class="tip-form">
+
+        <h2 id="form-heading">Add a New Safety Tip</h2>
+
+        <form id="tip-form">
+
+            <div class="form-group">
+                <label for="tip-title">Safety Tip Title</label>
+                <input
+                    type="text"
+                    id="tip-title"
+                    placeholder="e.g. Avoid Public Wi-Fi for Banking"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="tip-emoji">Tip Emoji</label>
+                <input
+                    type="text"
+                    id="tip-emoji"
+                    placeholder="e.g. 📶"
+                    maxlength="10"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="tip-description">Description</label>
+                <textarea
+                    id="tip-description"
+                    placeholder="Explain the safety advice..."
+                    required
+                ></textarea>
+            </div>
+
+            <button type="submit" class="tip-btn" id="save-btn">
+                Save Safety Tip
+            </button>
+
+            <button
+                type="button"
+                class="tip-btn cancel-btn"
+                id="cancel-btn"
+                hidden
+            >
+                Cancel Edit
+            </button>
+
+            <p
+                id="form-message"
+                class="message"
+                aria-live="polite"
+            ></p>
+
+        </form>
+
+    </section>
+
+    <section class="tip-list">
+
+        <h2>Existing Safety Tips</h2>
+
+        <p>Manage the additional safety tips stored in Firebase.</p>
+
+        <div id="tips-container">
+            Loading safety tips...
+        </div>
+
+    </section>
+
+</main>
+
+<script type="module" src="manage-safety-tips.js"></script>
+
+</body>
+</html>

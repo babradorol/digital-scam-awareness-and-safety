@@ -60,7 +60,7 @@ logoutButton.addEventListener("click", async () => {
 
   try {
     await signOut(auth);
-    window.location.replace("login.html");
+    window.location.replace("index.html");
   } catch (error) {
     message.textContent = "Unable to log out. Please try again.";
     logoutButton.disabled = false;

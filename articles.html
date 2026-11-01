@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scam Articles | ScamSafe</title>
-  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="style.css">
 
   <style>
     .page-wrap {
@@ -72,14 +72,31 @@
     .back-link:hover {
       color: #27a895;
     }
+
+    .firebase-articles-heading {
+      color: #7048c6;
+      margin-top: 40px;
+      margin-bottom: 5px;
+    }
+
+    .firebase-articles-description {
+      color: #596579;
+    }
+
+    .article-message {
+      color: #596579;
+      padding: 15px;
+      background: #f8f5ff;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
   </style>
 </head>
 
 <body>
   <main class="page-wrap">
 
-    <!-- Correct link to the registered user dashboard -->
-    <a class="back-link" href="../registered-user.html">
+    <a class="back-link" href="registered-user.html">
       ← My Dashboard
     </a>
 
@@ -90,6 +107,8 @@
         trick people and what warning signs to look for.
       </p>
     </section>
+
+    <!-- SIX PERMANENT ARTICLES -->
 
     <section class="article-grid">
 
@@ -143,6 +162,22 @@
 
     </section>
 
+    <!-- ADDITIONAL ARTICLES FROM FIREBASE -->
+
+    <section>
+      <h2 class="firebase-articles-heading">
+        📖 More Scam Awareness Articles
+      </h2>
+
+      <p class="firebase-articles-description">
+        Explore additional awareness information published by ScamSafe administrators.
+      </p>
+
+      <div id="firebase-articles" class="article-grid">
+        <p class="article-message">Loading additional articles...</p>
+      </div>
+    </section>
+
     <section class="article-card" style="margin-top:25px;">
       <h2>💜 Remember</h2>
       <p>
@@ -151,19 +186,105 @@
         money or personal details until you are sure.
       </p>
 
-      <!-- Correct link to the reporting guide inside pages -->
       <a href="how-to-report.html">
         Learn how to report a suspected scam →
       </a>
     </section>
 
-    <!-- Correct link to the homepage -->
     <p>
-      <a class="back-link" href="../index.html">
+      <a class="back-link" href="index.html">
         ← Back to Homepage
       </a>
     </p>
 
   </main>
+
+  <!-- FIREBASE ARTICLE DISPLAY -->
+
+  <script type="module">
+
+    import { db } from "./firebase-config.js";
+
+    import {
+      ref,
+      onValue
+    } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+
+    const articlesContainer =
+      document.getElementById("firebase-articles");
+
+    const articlesRef = ref(db, "scamAwareness");
+
+    onValue(articlesRef, (snapshot) => {
+
+      articlesContainer.innerHTML = "";
+
+      if (!snapshot.exists()) {
+
+        articlesContainer.innerHTML =
+          '<p class="article-message">No additional articles have been published yet. Please check again later.</p>';
+
+        return;
+      }
+
+      snapshot.forEach((childSnapshot) => {
+
+        const article = childSnapshot.val();
+
+        const card = document.createElement("article");
+        card.className = "article-card";
+
+        const emoji = document.createElement("div");
+        emoji.className = "emoji";
+        emoji.textContent = article.emoji || "📚";
+
+        const title = document.createElement("h2");
+        title.textContent = article.title || "Untitled Article";
+
+        const description = document.createElement("p");
+        description.textContent = article.description || "";
+
+        const warning = document.createElement("p");
+        warning.className = "warning";
+
+        const warningLabel = document.createElement("strong");
+        warningLabel.textContent = "Warning signs: ";
+
+        warning.appendChild(warningLabel);
+        warning.appendChild(
+          document.createTextNode(article.warningSigns || "")
+        );
+
+        const safety = document.createElement("p");
+
+        const safetyLabel = document.createElement("strong");
+        safetyLabel.textContent = "Stay safe: ";
+
+        safety.appendChild(safetyLabel);
+        safety.appendChild(
+          document.createTextNode(article.safetyAdvice || "")
+        );
+
+        card.appendChild(emoji);
+        card.appendChild(title);
+        card.appendChild(description);
+        card.appendChild(warning);
+        card.appendChild(safety);
+
+        articlesContainer.appendChild(card);
+
+      });
+
+    }, (error) => {
+
+      console.error("Error loading additional articles:", error);
+
+      articlesContainer.innerHTML =
+        '<p class="article-message">Unable to load additional articles. Please try again later.</p>';
+
+    });
+
+  </script>
+
 </body>
 </html>

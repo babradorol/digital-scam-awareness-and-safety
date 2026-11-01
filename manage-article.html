@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Articles | ScamSafe</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .manage-articles {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 20px;
+        }
+
+        .articles-heading {
+            background: linear-gradient(135deg, #7048c6, #27b8a5);
+            color: white;
+            padding: 28px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+
+        .article-form, .article-list {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .article-form h2, .article-list h2 {
+            color: #7048c6;
+            margin-bottom: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font: inherit;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .article-btn {
+            background: #7048c6;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .article-btn:hover {
+            background: #5936a5;
+        }
+
+        .article-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .cancel-btn {
+            background: #777;
+            margin-left: 8px;
+        }
+
+        .managed-article {
+            border: 1px solid #eee;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .managed-article h3 {
+            color: #7048c6;
+            margin-bottom: 8px;
+        }
+
+        .article-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .edit-btn {
+            background: #27a879;
+        }
+
+        .delete-btn {
+            background: #d9534f;
+        }
+
+        .message {
+            margin: 12px 0;
+            font-weight: 600;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 0;
+            color: #7048c6;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .manage-articles {
+                padding: 12px;
+            }
+
+            .article-actions {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="manage-articles">
+
+    <a href="admin-dashboard.html" class="back-link">
+        ← Back to Admin Dashboard
+    </a>
+
+    <section class="articles-heading">
+        <h1>📚 Manage Scam Awareness Articles</h1>
+        <p>
+            Add, update and manage educational articles that help users
+            understand different types of digital scams.
+        </p>
+    </section>
+
+    <section class="article-form">
+        <h2 id="form-heading">Add a New Article</h2>
+
+        <form id="article-form">
+
+            <div class="form-group">
+                <label for="article-title">Article Title</label>
+                <input
+                    type="text"
+                    id="article-title"
+                    placeholder="e.g. Fake Cryptocurrency Scams"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="article-emoji">Article Emoji</label>
+                <input
+                    type="text"
+                    id="article-emoji"
+                    placeholder="e.g. 💰"
+                    maxlength="10"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="article-description">Description</label>
+                <textarea
+                    id="article-description"
+                    placeholder="Explain what this scam involves..."
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="article-warning">Warning Signs</label>
+                <textarea
+                    id="article-warning"
+                    placeholder="List the warning signs users should look out for..."
+                    required
+                ></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="article-safety">How to Stay Safe</label>
+                <textarea
+                    id="article-safety"
+                    placeholder="Explain how users can protect themselves..."
+                    required
+                ></textarea>
+            </div>
+
+            <button type="submit" class="article-btn" id="save-btn">
+                Save Article
+            </button>
+
+            <button
+                type="button"
+                class="article-btn cancel-btn"
+                id="cancel-btn"
+                hidden
+            >
+                Cancel Edit
+            </button>
+
+            <p
+                id="form-message"
+                class="message"
+                aria-live="polite"
+            ></p>
+
+        </form>
+    </section>
+
+    <section class="article-list">
+        <h2>Existing Articles</h2>
+        <p>Manage the additional articles stored in Firebase.</p>
+
+        <div id="articles-container">
+            Loading articles...
+        </div>
+    </section>
+
+</main>
+
+<script type="module" src="manage-article.js"></script>
+
+</body>
+</html>

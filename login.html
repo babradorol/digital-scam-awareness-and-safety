@@ -27,13 +27,62 @@
       color: #667085;
     }
 
-    .login-box label {
+    .role-label {
+      display: block;
+      margin-top: 25px;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #30384b;
+    }
+
+    .role-select-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .role-icon {
+      position: absolute;
+      left: 13px;
+      font-size: 20px;
+      pointer-events: none;
+    }
+
+    #loginRole {
+      width: 100%;
+      padding: 13px 40px 13px 45px;
+      border: 1px solid #ddd6f2;
+      border-radius: 9px;
+      background: #faf8ff;
+      color: #30384b;
+      font-size: 15px;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      box-sizing: border-box;
+    }
+
+    #loginRole:focus {
+      outline: 2px solid #7048c6;
+      border-color: #7048c6;
+    }
+
+    .dropdown-arrow {
+      position: absolute;
+      right: 14px;
+      color: #7048c6;
+      pointer-events: none;
+      font-size: 15px;
+    }
+
+    .login-box label:not(.role-label) {
       display: block;
       margin-top: 17px;
       font-weight: bold;
     }
 
-    .login-box input {
+    .login-box input[type="email"],
+    .login-box input[type="password"] {
       width: 100%;
       padding: 12px;
       margin-top: 7px;
@@ -42,7 +91,7 @@
       box-sizing: border-box;
     }
 
-    .login-box button {
+    .login-box button[type="submit"] {
       width: 100%;
       margin-top: 22px;
       padding: 13px;
@@ -54,7 +103,7 @@
       cursor: pointer;
     }
 
-    .login-box button:hover {
+    .login-box button[type="submit"]:hover {
       background: #5633a3;
     }
 
@@ -70,20 +119,44 @@
     .login-box a {
       color: #7048c6;
     }
+
+    @media (max-width: 500px) {
+      .login-box {
+        margin: 25px 15px;
+        padding: 22px;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <div class="login-box">
+  <main class="login-box">
     <h1>🛡️ Welcome Back!</h1>
     <p>Log in to continue your ScamSafe journey.</p>
 
     <form id="loginForm">
+
+      <label for="loginRole" class="role-label">
+        Select Account Role
+      </label>
+
+      <div class="role-select-wrapper">
+        <span class="role-icon" id="roleIcon">👤</span>
+
+        <select id="loginRole" required>
+          <option value="user">Registered User</option>
+          <option value="admin">Administrator</option>
+        </select>
+
+        <span class="dropdown-arrow">▼</span>
+      </div>
+
       <label for="email">Email Address</label>
       <input
         type="email"
         id="email"
         required
+        autocomplete="username"
         placeholder="Enter your email"
       >
 
@@ -92,6 +165,7 @@
         type="password"
         id="password"
         required
+        autocomplete="current-password"
         placeholder="Enter your password"
       >
 
@@ -102,12 +176,41 @@
       <p id="message" role="status" aria-live="polite"></p>
     </form>
 
-    <p>Don't have an account?
+    <p id="registerPrompt">
+      Don't have an account?
       <a href="register.html">Register here</a>
     </p>
 
     <p><a href="index.html">← Back to Home</a></p>
-  </div>
+  </main>
+
+  <script>
+    const roleSelect = document.getElementById("loginRole");
+    const roleIcon = document.getElementById("roleIcon");
+    const loginButton = document.getElementById("loginButton");
+    const registerPrompt = document.getElementById("registerPrompt");
+    const message = document.getElementById("message");
+
+    function updateRoleDisplay() {
+      const role = roleSelect.value;
+
+      roleIcon.textContent = role === "admin" ? "🛡️" : "👤";
+
+      loginButton.textContent =
+        role === "admin"
+          ? "Login as Administrator 🛡️"
+          : "Login as Registered User ✨";
+
+      registerPrompt.style.display =
+        role === "admin" ? "none" : "block";
+
+      message.textContent = "";
+    }
+
+    roleSelect.addEventListener("change", updateRoleDisplay);
+
+    updateRoleDisplay();
+  </script>
 
   <script type="module" src="login.js"></script>
 </body>
